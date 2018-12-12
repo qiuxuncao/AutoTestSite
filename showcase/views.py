@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
+import pymysql
+import json
 
 # Create your views here.
 
@@ -29,3 +31,19 @@ def base(request):
 def layouts(request):
 
     return render(request, 'showcase/layouts.html')
+
+
+def showcase(request):
+    """
+    从数据库中读取作者的用例信息，并用于前台可视化展示
+    :param request:
+    :return:
+    """
+    db = pymysql.connect("localhost", "root", "guchen", "guchen_test", charset='utf8')
+    cursor = db.cursor()
+    sql = "select * from userCaseInfo"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    print results
+    # 向js中传递数据必须json.dumps()处理
+    return render(request, "showcase/showcase.html", {'caseInfo': json.dumps(list(results))})

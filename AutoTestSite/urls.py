@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^form_builder/', views.form_builder),
     url(r'^base/', views.base),
     url(r'^layouts/', views.layouts),
+    url(r'^showcase/', views.showcase),
 ]
