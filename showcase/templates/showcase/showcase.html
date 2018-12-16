@@ -1,5 +1,6 @@
 {#{% extends 'showcase/base.html' %}#}
 {#不用继承，单击导航时右侧区域，内嵌显示对应页面#}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,7 @@
     {#    引入jQuery#}
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <!-- 引入本地的 echarts.js -->
-    <script src="../static/js/echarts.js"></script>
+    <script src="{% static '/static/js/echarts.js' %}"></script>
 </head>
 
 <body>
