@@ -39,6 +39,7 @@ def showcase(request):
     :param request:
     :return:
     """
+    # 注意修改此处mysql服务的ip
     db = pymysql.connect("localhost", "root", "guchen", "guchen_test", charset='utf8')
     cursor = db.cursor()
     sql = "select * from userCaseInfo"
