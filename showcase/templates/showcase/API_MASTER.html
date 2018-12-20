@@ -33,7 +33,8 @@
 
 </head>
 <body>
-    <form action="/apitest/" method="get">
+    <!-- 这里的action的值一定要/开头，否则报错 -->
+    <form action="/apitest" method="get">
 {#        <label class="qwew">请求方法：</label>#}
         <div class="api-form" align="center" >
             <select class="api-method" name="request_method" >
