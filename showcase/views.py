@@ -33,6 +33,11 @@ def layouts(request):
     return render(request, 'showcase/layouts.html')
 
 
+def API_MASTER(request):
+
+    return render(request, 'showcase/API_MASTER.html')
+
+
 def showcase(request):
     """
     从数据库中读取作者的用例信息，并用于前台可视化展示
@@ -45,6 +50,6 @@ def showcase(request):
     sql = "select * from userCaseInfo"
     cursor.execute(sql)
     results = cursor.fetchall()
-    print results
+    # print results
     # 向js中传递数据必须json.dumps()处理
     return render(request, "showcase/showcase.html", {'caseInfo': json.dumps(list(results))})
