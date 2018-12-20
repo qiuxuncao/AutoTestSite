@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .api-form{
+            padding-top: 50px;
+        }
+        #url-input{
+            width: 450px;
+            height: 25px;
+        }
+        .api-method{
+            height: 30px;
+            width: 70px;
+        }
+        #send-button{
+            height: 30px;
+            width: 70px;
+            color: #ffffff;
+            background: #009ACD;
+        }
+        textarea{
+            width: 600px;
+            height: 300px;
+        }
+        #response-body-table{
+            margin:0 auto;
+        }
+    </style>
+
+</head>
+<body>
+    <form>
+{#        <label class="qwew">请求方法：</label>#}
+        <div class="api-form" align="center" >
+            <select class="api-method" name="" >
+                <option>GET</option>
+                <option>POST</option>
+            </select>
+            <input id="url-input" class="form-control" type="text" placeholder="输入接口完整地址" value=""/>
+            <button id="send-button" type="button">发送请求</button>
+        </div>
+    </form>
+
+    <table id="response-body-table">
+        <thead>
+            <tr>
+                <th>Response Body</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <textarea id="response-body"></textarea>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
