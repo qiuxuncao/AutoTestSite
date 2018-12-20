@@ -23,8 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'xa_w&hm2w)*d^1iyr3$z@sr+!spay6dw)1@nm8mgd3-n@+-(07'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# TEST OR DEVELOP ENVIROMENT SHOULD BE True,production environment should be False
 DEBUG = True
 
+# should be ['*']
 ALLOWED_HOSTS = ['*']
 
 
@@ -125,4 +127,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# The production environment must be turned on.The development environment must be annotated,Otherwise the site has no style
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
