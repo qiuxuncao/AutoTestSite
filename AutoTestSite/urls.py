@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^layouts/', views.layouts),
     url(r'^showcase/', views.showcase),
     url(r'^API_MASTER/', views.API_MASTER),
+    url(r'^apitest/', views.apitest),
 ]

@@ -26,21 +26,22 @@
             height: 300px;
         }
         #response-body-table{
+            /* 居中 */
             margin:0 auto;
         }
     </style>
 
 </head>
 <body>
-    <form>
+    <form action="/apitest/" method="get">
 {#        <label class="qwew">请求方法：</label>#}
         <div class="api-form" align="center" >
-            <select class="api-method" name="" >
+            <select class="api-method" name="request_method" >
                 <option>GET</option>
-                <option>POST</option>
+                <option>POST</option>response
             </select>
-            <input id="url-input" class="form-control" type="text" placeholder="输入接口完整地址" value=""/>
-            <button id="send-button" type="button">发送请求</button>
+            <input id="url-input" name="api_url" class="form-control" type="text" placeholder="输入接口完整地址" value=""/>
+            <input id="send-button" type="submit" value="发送请求" />
         </div>
     </form>
 
@@ -53,10 +54,32 @@
         <tbody>
             <tr>
                 <td>
-                    <textarea id="response-body"></textarea>
+                    <textarea id="response-body">{{ response }}</textarea>
                 </td>
             </tr>
         </tbody>
     </table>
+
+    <script type="text/javascript">
+        {#获取select对象#}
+        var selected=document.getElementsByClassName('api-method');
+        {#拿到选中项的索引#}
+        var index = selected.selectedIndex;
+        {#拿到选中想的option的text#}
+        var selected_api_method=selected.option[index].text;
+        {#拿到选中项options的value#}
+        {#selected.option[index].value;#}
+
+        {#function f() {#}
+             {#获取select对象#}
+        {#    var selected=document.getElementsByClassName('api-method');#}
+            {#拿到选中项的索引#}
+        {#    var index = selected.selectedIndex;#}
+            {#拿到选中想的option的text#}
+        {#    var selected_api_method=selected.option[index].text;#}
+        {#    alert(selected_api_method);#}
+        {#    alert('122')#}
+        {# }#}
+    </script>
 </body>
 </html>

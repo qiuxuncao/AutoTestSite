@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 import pymysql
 import json
+import requests
 
 # Create your views here.
 
@@ -53,3 +54,14 @@ def showcase(request):
     # print results
     # 向js中传递数据必须json.dumps()处理
     return render(request, "showcase/showcase.html", {'caseInfo': json.dumps(list(results))})
+
+
+def apitest(request):
+
+    request_method = request.GET['request_method']
+    api_url = request.GET['api_url']
+    print request_method
+    print api_url
+    r = requests.get(api_url)
+    print r.content
+    return render(request, 'showcase/API_MASTER.html',{'response': r.content})
