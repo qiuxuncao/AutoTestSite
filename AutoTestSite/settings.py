@@ -127,5 +127,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-# The production environment must be turned on.The development environment must be annotated
+# The production environment must be turned on.The development environment must be annotated,Otherwise the site has no style
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
