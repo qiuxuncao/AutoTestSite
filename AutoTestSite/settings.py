@@ -1,3 +1,4 @@
+# coding:utf-8
 """
 Django settings for AutoTestSite project.
 
@@ -24,6 +25,7 @@ SECRET_KEY = 'xa_w&hm2w)*d^1iyr3$z@sr+!spay6dw)1@nm8mgd3-n@+-(07'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # TEST OR DEVELOP ENVIROMENT SHOULD BE True,production environment should be False
+# 本地环境时一定要设置为True，设置为False时会没有样式
 DEBUG = True
 
 # should be ['*']

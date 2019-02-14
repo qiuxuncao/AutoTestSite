@@ -1,3 +1,4 @@
+# coding:utf-8
 """AutoTestSite URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -22,9 +23,11 @@ urlpatterns = [
     url(r'^index/', views.index),
     url(r'^404/', views.notfound),
     url(r'^form_builder/', views.form_builder),
+    # 入口页面为127.0.0.1:8000/base,不是index
     url(r'^base/', views.base),
     url(r'^layouts/', views.layouts),
     url(r'^showcase/', views.showcase),
+    url(r'^ytoAutoCaseCount/', views.ytoAutoCaseCount),
     url(r'^API_MASTER/', views.API_MASTER),
     url(r'^apitest/', views.apitest),
 ]

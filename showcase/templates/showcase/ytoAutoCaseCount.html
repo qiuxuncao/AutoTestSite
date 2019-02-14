@@ -1,0 +1,142 @@
+{#{% extends 'showcase/base.html' %}#}
+{#不用继承，单击导航时右侧区域，内嵌显示对应页面#}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>showcase</title>
+    {#    引入jQuery#}
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <!-- 引入本地的 echarts.js -->
+    <script src="{% static 'js/echarts.js' %}"></script>
+</head>
+
+<body>
+     <div id="main" style="width: 1000px;height: 500px">
+
+    <!--echarts图表-->
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+
+        // 显示标题，图例和空的坐标轴
+myChart.setOption({
+    title:{
+        text:"用例统计"
+    },
+    legend: {},
+    tooltip: {},
+    dataset: {
+        source: [
+            [],
+            [], //这里一定要把最内层的数据清除掉
+            []
+        ]
+    },
+    xAxis: {type: 'category'},
+
+       yAxis: [
+        {
+            type: 'value',
+            name: '数量',
+            {#min: 0,#}
+            {#max: 300,#}
+            {#interval: 50,#}
+            axisLabel: {
+                formatter: '{value} 个'
+            }
+        },
+        {
+            type: 'value',
+            name: '成功率',
+            min: 0,
+            max: 100,
+            interval: 10,
+            axisLabel: {
+                formatter: '{value} %'
+            }
+        }
+    ],
+
+    {#yAxis: {},#}
+    // Declare several bar series, each will be mapped
+    // to a column of dataset.source by default.
+    series: [
+        {
+            type: 'bar',
+             itemStyle: {        //上方显示数值
+                normal: {
+                    label: {
+                        show: true, //开启显示
+                        position: 'top', //在上方显示
+                        textStyle: { //数值样式
+                            color: 'black',
+                            fontSize: 16
+                        }
+                    }
+                }
+            }
+        },
+        {
+            type: 'bar',
+            itemStyle: {        //上方显示数值
+                normal: {
+                    label: {
+                        show: true, //开启显示
+                        position: 'top', //在上方显示
+                        textStyle: { //数值样式
+                            color: 'black',
+                            fontSize: 16
+                        }
+                    }
+                }
+            }
+        },
+        {   type:'bar',
+            yAxisIndex: 1,
+            itemStyle: {        //上方显示数值
+                normal: {
+                    label: {
+                        show: true, //开启显示
+                        position: 'top', //在上方显示
+                        textStyle: { //数值样式
+                            color: 'black',
+                            fontSize: 16
+                        }
+                    }
+                }
+            }}
+    ]
+});
+
+    var caseInfo={}; //请求前先不要获取后端返回的数据，先定义空的字典(去掉也没事)
+    // 注意这里的参数值，showcase表示视图函数，caseInfo是后台传过来的数据
+    $.get('/showcase/').done(function (caseInfo) {
+        caseInfo = {{ caseInfo|safe}}; // 获取后台传来的数据需要加上safe过滤
+        uname = caseInfo[0][1]
+        // 将source中不变的第一个列表元素初始化进来
+        var source = [['姓名', '总数', '成功', '成功率']];
+        // 使用for循环将caseInfo中的数据循环遍历push进source列表中
+        for(var i=0; i< caseInfo.length;i++)
+        {
+            source.push([caseInfo[i][4], caseInfo[i][0], caseInfo[i][1], caseInfo[i][3]])
+            myChart.setOption({
+                dataset: {
+                    // 引用添加了数据的变量source
+                    source: source
+                }
+            });
+        }
+     });
+    </script>
+    </div>
+<div>
+    <div>用例总数：{{ totalCount }}</div>
+    <div>成功数量：{{ sucCount }}</div>
+    <div>总通过率：{{ passRate }}</div>
+
+</div>
+</body>
+</html>
