@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>新增项目</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+
+
+<script type="text/javascript">
+        status = {{ status|safe }}
+        if (status=='1221')
+            setTimeout(function(){document.getElementById("a").style.display="none";}, 2000);
+    </script>
+
+</head>
+<body>
+
+
+    <div id="a" class="alert alert-success" align="center">提交成功！</div>
+
+{#    表格#}
+<table id="asset_list_table" class="display table  table-hover" data-toggle="table"
+{#                data-url="{% url 'show_asset_in_table' %}"#}
+                data-method="get"
+                data-pagination="true"
+                data-side-pagination="server"
+                data-page-list="[10, 20, 50, 100, 200]"
+                data-search="true" data-mobile-responsive="true" searchOnEnterKey="true"
+                data-show-refresh="true" data-show-columns="true"
+                data-show-toggle="true" data-page-size=20 data-unique-id="asset_id"
+                data-striped="true"
+                >
+              <thead >
+                    <tr>
+                    <th data-field="state" data-checkbox="true"></th>
+                    <th data-field="asset_id" data-align="center" data-sortable="true">资产ID(点击ID查看详情)</th>
+                    <th data-field="asset_sn" data-align="center" data-sortable="true"  data-width="50px">资产编号</th>
+                    <th data-field="asset_business_unit" data-sortable="true">产品线</th>
+                    <th data-field="asset_name" data-align="center" data-sortable="true"  data-class="asset_name">资产名</th>
+                    <th data-field="asset_management_ip" data-align="center" data-sortable="true"  data-class="asset_management_ip">管理IP</th>
+
+                    </tr>
+              </thead>
+</table>
+
+<!-- 按钮触发模态框 -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">新增项目</button>
+<!-- 模态框（Modal） -->
+<form action="/addProject/" method="post" class="form-horizontal" role="form">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					新增项目
+				</h4>
+			</div>
+            {# 模态框body #}
+     		<div class="modal-body" style="height:100px">
+                <div class="form-group">
+                    <label for="firstname" class="col-sm-3 control-label">项目名</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control"  name="tableName"
+                               placeholder="请输入项目名，仅限输入英文字符">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname" class="col-sm-3 control-label">注释</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control"  name="tableComment"
+                               placeholder="请输入表注释">
+                    </div>
+                </div>
+            </div>
+{#            模态框底部#}
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<input type="submit" class="btn btn-primary"value="提交"/>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+{##}
+</form>
+
+</body>
+
+{#bootstrap-table相关#}
+    <script src="bootstrap-table.js"></script>
+{#     汉化文件，放在 bootstrap-table.js 后面#}
+    <script src="bootstrap-table-zh-CN.js"></script>
+
+
+</html>

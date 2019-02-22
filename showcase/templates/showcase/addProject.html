@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>新增项目</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        setTimeout(function(){document.getElementById("a").style.display="none";}, 2000);
+    </script>
+
+</head>
+<body>
+
+
+    <div id="a" class="alert alert-success" align="center">提交成功！</div>
+
+
+{#</form>#}
+
+<!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+	开始演示模态框
+</button>
+<!-- 模态框（Modal） -->
+<form action="/addProject/" method="post" class="form-horizontal" role="form">
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					模态框（Modal）标题
+				</h4>
+			</div>
+            {# 模态框body #}
+     		<div class="modal-body" style="height:100px">
+                <div class="form-group">
+                    <label for="firstname" class="col-sm-3 control-label">项目名</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control"  name="tableName"
+                               placeholder="请输入项目名，仅限输入英文字符">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname" class="col-sm-3 control-label">注释</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control"  name="tableComment"
+                               placeholder="请输入表注释">
+                    </div>
+                </div>
+            </div>
+{#            模态框底部#}
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<input type="submit" class="btn btn-primary"value="提交"/>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+{##}
+</form>
+
+</body>
+</html>

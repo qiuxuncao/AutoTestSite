@@ -17,7 +17,8 @@
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
 
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}"> <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/animate.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
@@ -97,6 +98,12 @@
                             </li>
                              <li>
                                 <a class="J_menuItem" href="/ytoAutoCaseCount">项目自动化用例概览</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="/projectList">添加项目</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="/bootstrapTable">项目列表bootstapTable</a>
                             </li>
 {#                            <li>#}
 {#                                <a class="J_menuItem" href="/graph_echarts.html">百度ECharts</a>#}
@@ -371,9 +378,10 @@
 
 {#                     li标签为独立的一级菜单       #}
                     <li>
-{#                        <a href="#"><i class="fa fa-cutlery"></i> <span class="nav-label">工具 </span><span class="fa arrow"></span></a>#}
+                        <a href="#"><i class="fa fa-cutlery"></i> <span class="nav-label">工具 </span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" href="/form_builder">表单构建器</a>
+                            <li>
+                                <a class="J_menuItem" href="/form_builder">表单构建器</a>
                             </li>
                             <li>
                                 <a class="J_menuItem" href="/API_MASTER">API_MASTER</a>

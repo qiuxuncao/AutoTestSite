@@ -93,7 +93,7 @@ def ytoAutoCaseCount(request):
 
 
     results = (advertisement_results_list,membercenter_results_list,permission_results_list,saas_results_list)
-    print results
+    # print results
 
     #获取用例总数
     advertisementNumSQL= 'select count(*) from advertisement'
@@ -116,7 +116,7 @@ def ytoAutoCaseCount(request):
     sucCount=int(results[0][1])+int(results[1][1])+int(results[2][1])+int(results[3][1])
     passRate=sucCount/float(totalCount)
     passRate ="%.2f%%" % (passRate * 100)
-    print totalCount
+    # print totalCount
     # print results
     # 向js中传递数据必须json.dumps()处理
     return render(request, "showcase/ytoAutoCaseCount.html", {'caseInfo': json.dumps(list(results)),
@@ -125,3 +125,58 @@ def ytoAutoCaseCount(request):
                                                               'passRate':passRate})
 
 # ytoAutoCaseCount()
+
+
+def addProject(request):
+    '''
+    新增自动化测试项目
+    :param request:
+    :return:
+    '''
+    # db = pymysql.connect("192.168.207.160", "root", "123qwe!@#", "autotest", charset='utf8')
+    db = pymysql.connect("localhost", "root", "guchen", "guchen_test", charset='utf8')
+    cursor = db.cursor()
+    if request.method == "POST":
+        projectName = request.POST.get("tableName", None)
+        comment = request.POST.get("tableComment", None)
+    print projectName, comment
+    addProjectSQL = (
+        "CREATE TABLE `%s` ("
+        "`id` int(32) NOT NULL AUTO_INCREMENT,"
+        " `total` varchar(64) DEFAULT NULL,"
+        "`succ` varchar(64) DEFAULT NULL,"
+        " `fail` varchar(64) DEFAULT NULL,"
+        "`percent` varchar(64) DEFAULT NULL,"
+        "`author` varchar(64) DEFAULT NULL,"
+        " `add_time` datetime DEFAULT CURRENT_TIMESTAMP,"
+        " PRIMARY KEY (`id`))"
+        "ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='%s'"
+        % (projectName, comment)
+    )
+    cursor.execute(addProjectSQL)
+    cursor.close()
+    status = 'success'
+    return render(request,"showcase/projectList.html",{'status':json.dumps(status)})
+
+def projectList(requset):
+
+    return render(requset,"showcase/projectList.html")
+
+def bootstrapTable(request):
+    db = pymysql.connect("192.168.207.160", "root", "123qwe!@#", "autotest", charset='utf8')
+    cursor = db.cursor()
+    datalist = []
+    saasCount = "select total,succ,fail,percent from saas ORDER BY id DESC LIMIT 1"
+    cursor.execute(saasCount)
+    saas_results = cursor.fetchall()
+    # print list(saas_results[0])
+    # datalist.append(list(saas_results[0]))
+    datalist= {
+            "id": "1",
+            "name": "2",
+            "price": "$0"
+        }
+    print datalist
+
+    return render(request,'showcase/bootstrapTable.html',{'datalist':json.dumps(datalist)})
+# bootstrapTable()
