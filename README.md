@@ -4,7 +4,7 @@
 
 
 
-#2、数据库建表语句：
+# 2、数据库建表语句：
 CREATE TABLE `saas` (
   `id` int(32) NOT NULL AUTO_INCREMENT,
   `total` varchar(64) DEFAULT NULL,
