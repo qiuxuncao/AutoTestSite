@@ -15,7 +15,17 @@
  </head>
 
     <body>
+{#        自定义搜索条件区域#}
+        <div>
+            <input id="search-keyword" placeholder="请输入编号查询">
+            <button id="search-button">查询</button>
+        </div>
+
+
+
+{#        bootstrap table自动渲染区域#}
         <table id="mytab" class="table table-hover"></table>
+
     </body>
 
 {#        <script>#}
@@ -34,7 +44,7 @@
 
                     $('#mytab').bootstrapTable({
                         {#全部参数#}
-                        url: "{% static 'guchen_obj.json' %}",     //请求后台的URL（*）或者外部json文件，json内容若为json数组[{"id": 0,"name": "Item 0","price": "$0"},{"id": 1,"name": "Item 1","price": "$1"}]，
+                        {#url: "{% static 'guchen_obj.json' %}",     //请求后台的URL（*）或者外部json文件，json内容若为json数组[{"id": 0,"name": "Item 0","price": "$0"},{"id": 1,"name": "Item 1","price": "$1"}]，#}
                                                                         //且键的名字必须与下方columns的field值一样，同时sidePagination需要设置为client或者直接注释掉，这样前台才能读取到数据，且分页正常。
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　//当json文件内容为json对象时：{"total": 2,"rows": [{"id": 0,"name": "Item 0","price": "$0"},{"id": 1,"name": "Item 1","price": "$1"}]}，
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　//分页要写为server，但是server如果没有处理的话,会在第一页显示所有的数据，分页插件不会起作用
@@ -63,9 +73,30 @@
                         uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
                         showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
                         cardView: false,                    //是否显示详细视图
-                        detailView: true,                   //是否显示父子表
+                        detailView: false,                   //是否显示父子表
+
+                        //得到查询的参数
+                        queryParams: function (params) {
+                            //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                            var query_params = {
+                                rows: params.limit,                         //页面大小
+                                page: (params.offset / params.limit) + 1,   //页码
+                                sort: params.sort,      //排序列名
+                                sortOrder: params.order, //排位命令（desc，asc）
+
+                                //查询框中的参数传递给后台
+                                search_kw: $('#search-keyword').val(), // 请求时向服务端传递的参数
+                            };
+                            return query_params;
+                        },
+
+
 
                         columns: [
+                            {
+                                checkbox:true  //第一列显示复选框
+                            },
+
                             {
                                 field: 'id',  //返回数据rows数组中的每个字典的键名与此处的field值要保持一致
                                 title: '构建序号'
@@ -88,28 +119,6 @@
                              },
 
                         ],
-
-                        {#使用外部json文件如test.json时不需要ajax，后台返回的数据也不需要#}
-
-                        {#ajax : function (request) {#}
-                        {#    $.ajax({#}
-                        {#        type : "GET",#}
-                        {#        url : "{% static 'guchen.json' %}",#}
-                        {#        contentType: "application/json;charset=utf-8",#}
-                        {#        dataType:"jsonp",#}
-                        {#        data:'',#}
-                        {#        jsonp:'callback',#}
-                        {#        success : function (data) {#}
-                        {#            request.success({#}
-                        {#                row : data#}
-                        {#            });#}
-                        {#            $('#mytab').bootstrapTable('load', data);#}
-                        {#        },#}
-                        {#        error:function(){#}
-                        {#            alert("错误");#}
-                        {#        }#}
-                        {#    });#}
-                        {#    },#}
                     });
 
 
@@ -122,6 +131,16 @@
                     result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteByIds('" + id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
                     return result;
                 }
+
+
+                // 搜索查询按钮触发事件
+                $(function() {
+                    $("#search-button").click(function () {
+                        $('#mytab').bootstrapTable(('refresh')); // 很重要的一步，刷新url！
+                        $('#search-keyword').val('')
+                    })
+                })
+
         </script>
 
 

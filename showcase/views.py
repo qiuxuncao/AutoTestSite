@@ -194,28 +194,26 @@ def bootstrapTable(request):
 
 
 def getdata(request):
+
+    # 接收url传递来的search_kw参数值
+    search_kw = request.GET.get('search_kw')
+    print 'search_kw的值为：%s' % search_kw
+
     db = pymysql.connect("192.168.207.160", "root", "123qwe!@#", "autotest", charset='utf8')
     cursor = db.cursor()
     rows = []
-    count="select COUNT(*) from saas"
-    saasCount = "select id,total,succ,fail,percent from saas ORDER BY id DESC"
-    cursor.execute(count)
-    count = cursor.fetchone()
+    # 根据是否存在搜索关键字执行不同sql,用来返回符合条件的数据
+    if search_kw:
+        saasCount = "select id,total,succ,fail,percent from saas where id like '%%%s%%'" % search_kw
+    else:
+        saasCount = "select id,total,succ,fail,percent from saas"
     cursor.execute(saasCount)
-
     saas_results = cursor.fetchall()
     print list(saas_results)
     for i in list(saas_results):
         print i
+        # 将数组中的每个元素提取出来拼接为rows的内容
         rows.append({"id": i[0], "name": i[1], "price": i[4]})
     print rows
-    datalist={
-        "total": count[0],
-        "rows": rows
-    }
-
-    print datalist
     # rows返回为json数组
     return HttpResponse(json.dumps(rows))
-    # datalist为json对象
-    # reqturn HttpResponse(json.dumps(datalist))
