@@ -33,4 +33,5 @@ urlpatterns = [
     url(r'^addProject/',views.addProject),
     url(r'^projectList/',views.projectList),
     url(r'^bootstrapTable/',views.bootstrapTable),
+    url(r'^getdata/',views.getdata),
 ]

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 import pymysql
 import json
 import requests
@@ -139,22 +139,22 @@ def addProject(request):
     if request.method == "POST":
         projectName = request.POST.get("tableName", None)
         comment = request.POST.get("tableComment", None)
-    print projectName, comment
-    addProjectSQL = (
-        "CREATE TABLE `%s` ("
-        "`id` int(32) NOT NULL AUTO_INCREMENT,"
-        " `total` varchar(64) DEFAULT NULL,"
-        "`succ` varchar(64) DEFAULT NULL,"
-        " `fail` varchar(64) DEFAULT NULL,"
-        "`percent` varchar(64) DEFAULT NULL,"
-        "`author` varchar(64) DEFAULT NULL,"
-        " `add_time` datetime DEFAULT CURRENT_TIMESTAMP,"
-        " PRIMARY KEY (`id`))"
-        "ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='%s'"
-        % (projectName, comment)
-    )
-    cursor.execute(addProjectSQL)
-    cursor.close()
+        print projectName, comment
+        addProjectSQL = (
+            "CREATE TABLE `%s` ("
+            "`id` int(32) NOT NULL AUTO_INCREMENT,"
+            " `total` varchar(64) DEFAULT NULL,"
+            "`succ` varchar(64) DEFAULT NULL,"
+            " `fail` varchar(64) DEFAULT NULL,"
+            "`percent` varchar(64) DEFAULT NULL,"
+            "`author` varchar(64) DEFAULT NULL,"
+            " `add_time` datetime DEFAULT CURRENT_TIMESTAMP,"
+            " PRIMARY KEY (`id`))"
+            "ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='%s'"
+            % (projectName, comment)
+        )
+        cursor.execute(addProjectSQL)
+        cursor.close()
     status = 'success'
     return render(request,"showcase/projectList.html",{'status':json.dumps(status)})
 
@@ -171,12 +171,51 @@ def bootstrapTable(request):
     saas_results = cursor.fetchall()
     # print list(saas_results[0])
     # datalist.append(list(saas_results[0]))
+#     字典js接收不到
     datalist= {
-            "id": "1",
-            "name": "2",
-            "price": "$0"
-        }
-    print datalist
+    	"total": 3,
+    	"rows": [{
+    		"id": 1,
+    		"name": "mdm",
+    		"price": 200
+    	}]
+    }
+#     datalist= [{
+#     		"id": 1,
+#     		"name": "mdm",
+#     		"price": 200
+#     	}]
+    # print datalist
+    # 列表js可以接收
+    # datalist=[['主数据','t_mdm', '200'],['客户管家','t_khm', '30']]
+    dl=json.dumps(datalist)
+    return render(request, 'showcase/bootstrapTable.html', {'datalist': dl})
 
-    return render(request,'showcase/bootstrapTable.html',{'datalist':json.dumps(datalist)})
-# bootstrapTable()
+
+
+def getdata(request):
+    db = pymysql.connect("192.168.207.160", "root", "123qwe!@#", "autotest", charset='utf8')
+    cursor = db.cursor()
+    rows = []
+    count="select COUNT(*) from saas"
+    saasCount = "select id,total,succ,fail,percent from saas ORDER BY id DESC"
+    cursor.execute(count)
+    count = cursor.fetchone()
+    cursor.execute(saasCount)
+
+    saas_results = cursor.fetchall()
+    print list(saas_results)
+    for i in list(saas_results):
+        print i
+        rows.append({"id": i[0], "name": i[1], "price": i[4]})
+    print rows
+    datalist={
+        "total": count[0],
+        "rows": rows
+    }
+
+    print datalist
+    # rows返回为json数组
+    return HttpResponse(json.dumps(rows))
+    # datalist为json对象
+    # reqturn HttpResponse(json.dumps(datalist))

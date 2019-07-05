@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
  <head>
@@ -15,17 +16,30 @@
 
     <body>
         <table id="mytab" class="table table-hover"></table>
+    </body>
+
+{#        <script>#}
+          {#var aaa = JSON.parse('{{ datalist|safe }}');#}
+{#          aaa = {{ datalist|safe }}#}
+{#            alert(aaa[0]);#}
+{#        </script>#}
+
         <script type="text/javascript">
 
-            datalist = {{ datalist|safe}}; // 获取后台传来的数据需要加上safe过滤
+            {#var Datalist ='{{ datalist|safe }}'; // 获取后台传来的数据需要加上safe过滤#}
             {#datalist= [[93,93,0,100.0],[20,23,26,29]]#}
-            alert(datalist);
+{#            var aaa = JSON.parse('{{ datalist|safe }}');#}
+{#            alert(aaa);#}
 
-                {#for (var i=2;i<datalist.length;i++) {#}
 
                     $('#mytab').bootstrapTable({
                         {#全部参数#}
-                        url: '127.0.0.1:8000/bootstrapTable',         //请求后台的URL（*）
+                        url: "{% static 'guchen_obj.json' %}",     //请求后台的URL（*）或者外部json文件，json内容若为json数组[{"id": 0,"name": "Item 0","price": "$0"},{"id": 1,"name": "Item 1","price": "$1"}]，
+                                                                        //且键的名字必须与下方columns的field值一样，同时sidePagination需要设置为client或者直接注释掉，这样前台才能读取到数据，且分页正常。
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　//当json文件内容为json对象时：{"total": 2,"rows": [{"id": 0,"name": "Item 0","price": "$0"},{"id": 1,"name": "Item 1","price": "$1"}]}，
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　//分页要写为server，但是server如果没有处理的话,会在第一页显示所有的数据，分页插件不会起作用
+
+                        url:"/getdata",                     //从后台获取数据时，可以是json数组，也可以是json对象
                         dataType: "json",
                         method: 'get',                      //请求方式（*）
                         toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -35,7 +49,7 @@
                         sortable: true,                     //是否启用排序
                         sortOrder: "asc",                   //排序方式
                         {#queryParams: oTableInit.queryParams,//传递参数（*）#}
-                        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                        {#sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）,数据为json数组时写client，json对象时（有total和rows时）这里要为server方式，写client列表无数据#}
                         pageNumber: 1,                       //初始化加载第一页，默认第一页
                         pageSize: 10,                       //每页的记录行数（*）
                         pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
@@ -50,128 +64,55 @@
                         showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
                         cardView: false,                    //是否显示详细视图
                         detailView: true,                   //是否显示父子表
-                        {##}
 
                         columns: [
                             {
-                                field: 'id',
-                                title: '登录名'
+                                field: 'id',  //返回数据rows数组中的每个字典的键名与此处的field值要保持一致
+                                title: '构建序号'
                             },
                             {
                                 field: 'name',
-                                title: '昵称'
+                                title: '用例总数'
                             },
                             {
                                 field: 'price',
-                                title: '角色'
+                                title: '通过率'
                             },
                             {
-                                field: 'price',
+                                field: 'operate',
                                 title: '操作',
                                 width: 120,
                                 align: 'center',
                                 valign: 'middle',
                                 formatter: actionFormatter,
-                            },
+                             },
 
                         ],
 
-                        {#data:  [#}
-                            {#for(var i=0;i<datalist.length;i++){#}
-                        {#        {#}
-                        {#            "id": 0,#}
-                        {#            "name": "Item 0",#}
-                        {#            "price": "$0"#}
+                        {#使用外部json文件如test.json时不需要ajax，后台返回的数据也不需要#}
+
+                        {#ajax : function (request) {#}
+                        {#    $.ajax({#}
+                        {#        type : "GET",#}
+                        {#        url : "{% static 'guchen.json' %}",#}
+                        {#        contentType: "application/json;charset=utf-8",#}
+                        {#        dataType:"jsonp",#}
+                        {#        data:'',#}
+                        {#        jsonp:'callback',#}
+                        {#        success : function (data) {#}
+                        {#            request.success({#}
+                        {#                row : data#}
+                        {#            });#}
+                        {#            $('#mytab').bootstrapTable('load', data);#}
                         {#        },#}
-                        {##}
-                        {##}
-                        {##}
-                        {#    {#}
-                        {#        "id": 0,#}
-                        {#        "name": "Item 0",#}
-                        {#        "price": "$0"#}
+                        {#        error:function(){#}
+                        {#            alert("错误");#}
+                        {#        }#}
+                        {#    });#}
                         {#    },#}
-                        {#    {#}
-                        {#        "id": 1,#}
-                        {#        "name": "Item 1",#}
-                        {#        "price": "$1"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 2,#}
-                        {#        "name": "Item 2",#}
-                        {#        "price": "$2"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 3,#}
-                        {#        "name": "Item 3",#}
-                        {#        "price": "$3"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 4,#}
-                        {#        "name": "Item 4",#}
-                        {#        "price": "$4"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 5,#}
-                        {#        "name": "Item 5",#}
-                        {#        "price": "$5"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 6,#}
-                        {#        "name": "Item 6",#}
-                        {#        "price": "$6"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 7,#}
-                        {#        "name": "Item 7",#}
-                        {#        "price": "$7"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 8,#}
-                        {#        "name": "Item 8",#}
-                        {#        "price": "$8"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 9,#}
-                        {#        "name": "Item 9",#}
-                        {#        "price": "$9"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 10,#}
-                        {#        "name": "Item 10",#}
-                        {#        "price": "$10"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 11,#}
-                        {#        "name": "Item 11",#}
-                        {#        "price": "$11"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 12,#}
-                        {#        "name": "Item 12",#}
-                        {#        "price": "$12"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 13,#}
-                        {#        "name": "Item 13",#}
-                        {#        "price": "$13"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 14,#}
-                        {#        "name": "Item 14",#}
-                        {#        "price": "$14"#}
-                        {#    },#}
-                        {#    {#}
-                        {#        "id": 15,#}
-                        {#        "name": "Item 15",#}
-                        {#        "price": "$15"#}
-                        {#    }#}
-                        {#]#}
-
-
                     });
 
-{#                    {% endfor %}#}
+
                 //操作栏的格式化
                 function actionFormatter(value, row, index) {
                     var id = value;
@@ -182,6 +123,6 @@
                     return result;
                 }
         </script>
-    </body>
+
 
 </html>
