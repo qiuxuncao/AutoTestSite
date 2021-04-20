@@ -14,7 +14,7 @@ ipaddress==1.0.22
 paramiko==2.4.1
 pipreqs==0.4.9
 pluggy==0.8.0
-py==1.7.0
+py==1.10.0
 pyasn1==0.4.4
 pycparser==2.18
 pycrypto==2.6
