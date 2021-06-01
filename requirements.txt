@@ -38,6 +38,6 @@ six==1.11.0
 somepackage==1.2.3
 toml==0.10.0
 tox==3.5.3
-urllib3==1.23
+urllib3==1.26.5
 virtualenv==16.0.0
 yarg==0.1.9
