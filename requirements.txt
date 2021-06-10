@@ -5,7 +5,7 @@ cffi==1.11.5
 chardet==3.0.4
 coverage==4.5.2
 cryptography==2.3
-Django==1.11.16
+Django==2.2.24
 docopt==0.6.2
 enum34==1.1.6
 filelock==3.0.10
